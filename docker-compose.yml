@@ -1,0 +1,46 @@
+services:
+  challenge:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: challenge
+    ports:
+      - 3000:3000
+    entrypoint: ./entrypoint.sh
+    tty: true
+    volumes:
+      - ./:/app
+    networks:
+      - challenge_net
+    depends_on:
+      - challenge_db
+      - redis
+
+  redis:
+    image: redis:7.0
+    networks:
+      - challenge_net
+
+  challenge_db:
+    image: postgres:16
+    shm_size: 1g
+    container_name: challenge_db
+    ports:
+      - 5432:5432
+    restart: always
+    tty: true
+    networks:
+      - challenge_net
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+networks:
+  challenge_net:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+
