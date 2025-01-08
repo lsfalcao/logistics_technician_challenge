@@ -10,7 +10,9 @@ class Api::V1::OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    render json: @order
+    if stale?(last_modified: @order.updated_at)
+      render json: @order
+    end
   end
 
   # POST /orders
@@ -18,7 +20,7 @@ class Api::V1::OrdersController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      render json: @order, status: :created, location: @order
+      render json: @order, status: :created
     else
       render json: @order.errors, status: :unprocessable_entity
     end
@@ -47,6 +49,6 @@ class Api::V1::OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:user, :date)
+    params.require(:order).permit(:user_id, :date)
   end
 end
