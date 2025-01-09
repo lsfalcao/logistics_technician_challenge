@@ -1,9 +1,14 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::UsersControllers", type: :request do
+  let!(:client) { create(:client) }
   let!(:user) { create(:user) }
   let(:valid_attributes) { {name: Faker::Name.name} }
   let(:invalid_attributes) { {name: ""} }
+
+  before do
+    sign_in client
+  end
 
   describe "GET /index" do
     it "renders a successful response" do

@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
+  let!(:client) { create(:client) }
   let!(:user) { create(:user) }
   let!(:order) { create(:order, user: user) }
   let!(:order_product) { create(:order_product, order: order) }
@@ -12,6 +13,10 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
     }
   }
   let(:invalid_attributes) { {product_id: ""} }
+
+  before do
+    sign_in client
+  end
 
   describe "GET /index" do
     it "renders a successful response" do

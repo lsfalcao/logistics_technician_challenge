@@ -1,4 +1,4 @@
-class Api::V1::OrdersController < ApplicationController
+class Api::V1::OrdersController < Api::AppController
   before_action :set_order, only: %i[show update destroy]
 
   # GET /orders

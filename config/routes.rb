@@ -6,7 +6,18 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "api/v1/users#index"
+
+  devise_for :clients, path: "api/v1",
+    path_names: {
+      sign_in: "login",
+      sign_out: "logout",
+      registration: "signup"
+    },
+    controllers: {
+      sessions: "api/v1/clients/sessions",
+      registrations: "api/v1/clients/registrations"
+    }
 
   namespace :api do
     namespace :v1 do

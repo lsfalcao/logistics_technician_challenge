@@ -1,10 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::OrdersControllers", type: :request do
+  let!(:client) { create(:client) }
   let!(:user) { create(:user) }
   let!(:order) { create(:order, user: user) }
   let(:valid_attributes) { {date: Faker::Date.between(from: 6.months.ago, to: Date.current), user_id: user.id} }
   let(:invalid_attributes) { {date: ""} }
+
+  before do
+    sign_in client
+  end
 
   describe "GET /index" do
     it "renders a successful response" do
