@@ -49,6 +49,6 @@ class Api::V1::OrderProductsController < Api::AppController
 
   # Only allow a list of trusted parameters through.
   def order_product_params
-    params.require(:order_product).permit(:order_id, :product_id, :value)
+    params.require(:order_product).permit(:order_id, :legacy_product_id, :value)
   end
 end

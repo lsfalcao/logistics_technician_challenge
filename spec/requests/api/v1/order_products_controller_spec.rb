@@ -8,11 +8,11 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
   let(:valid_attributes) {
     {
       value: Faker::Number.decimal(l_digits: 4, r_digits: 2),
-      product_id: Faker::Number.number(digits: 4),
+      legacy_product_id: Faker::Number.number(digits: 4),
       order_id: order.id
     }
   }
-  let(:invalid_attributes) { {product_id: ""} }
+  let(:invalid_attributes) { {legacy_product_id: ""} }
 
   before do
     sign_in client
@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
       get api_v1_order_products_url
 
       expect(response).to be_successful
-      expect(response.body).to include(order_product.product_id.to_s)
+      expect(response.body).to include(order_product.legacy_product_id.to_s)
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
       get api_v1_order_product_url(order_product)
 
       expect(response).to be_successful
-      expect(response.body).to include(order_product.product_id.to_s)
+      expect(response.body).to include(order_product.legacy_product_id.to_s)
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
           post api_v1_order_products_url, params: {order_product: valid_attributes}
         }.to change(OrderProduct, :count).by(1)
         order_product = OrderProduct.last
-        expect(order_product.product_id.to_s).to eq(valid_attributes[:product_id].to_s)
+        expect(order_product.legacy_product_id.to_s).to eq(valid_attributes[:legacy_product_id].to_s)
       end
     end
 
@@ -63,13 +63,13 @@ RSpec.describe "Api::V1::OrderProductProductsControllers", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) { {product_id: Faker::Number.number(digits: 4)} }
+      let(:new_attributes) { {legacy_product_id: Faker::Number.number(digits: 4)} }
 
       it "updates the requested order_product" do
         order_product = OrderProduct.create! valid_attributes
         patch api_v1_order_product_url(order_product), params: {order_product: new_attributes}
         order_product.reload
-        expect(order_product.product_id.to_s).to eq(new_attributes[:product_id].to_s)
+        expect(order_product.legacy_product_id.to_s).to eq(new_attributes[:legacy_product_id].to_s)
       end
     end
 

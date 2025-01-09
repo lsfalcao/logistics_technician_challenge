@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_09_201922) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_09_225449) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,11 +73,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_09_201922) do
   create_table "order_products", force: :cascade do |t|
     t.bigint "order_id"
     t.decimal "value", precision: 11, scale: 2
-    t.bigint "product_id"
+    t.bigint "legacy_product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["legacy_product_id"], name: "index_order_products_on_legacy_product_id"
     t.index ["order_id"], name: "index_order_products_on_order_id"
-    t.index ["product_id"], name: "index_order_products_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_09_201922) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "legacy_id"
     t.index ["date"], name: "index_orders_on_date"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -93,6 +94,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_09_201922) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "legacy_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

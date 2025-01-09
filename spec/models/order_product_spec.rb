@@ -13,6 +13,6 @@ RSpec.describe OrderProduct, type: :model do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:value) }
-    it { is_expected.to validate_presence_of(:product_id) }
+    it { is_expected.to validate_presence_of(:legacy_product_id) }
   end
 end

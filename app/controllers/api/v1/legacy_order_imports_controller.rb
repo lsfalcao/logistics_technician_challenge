@@ -19,7 +19,7 @@ class Api::V1::LegacyOrderImportsController < Api::AppController
   def create
     if params[:file].blank?
       return render json: {
-        status: {message: "LegacyOrderImport couldn't be created withou file."}
+        status: {message: "LegacyOrderImport couldn't be created without file."}
       }, status: :unprocessable_entity
     end
 
