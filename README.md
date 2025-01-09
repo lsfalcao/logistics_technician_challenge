@@ -32,6 +32,10 @@ docker exec -it challenge rails db:create db:migrate db:seed
 ```bash
 docker exec -it challenge rails s -b 0.0.0.0
 ```
+### Iniciar o sidekiq para executar processos emm segundo plano
+```bash
+docker exec -it challenge bundle exec sidekiq
+```
 ## Resetar o banco de dados
 ```bash
 docker exec -it challenge rails db:reset
