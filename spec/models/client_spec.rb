@@ -9,5 +9,6 @@ RSpec.describe Client, type: :model do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to have_many(:legacy_order_imports).dependent(:destroy) }
   end
 end

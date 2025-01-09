@@ -38,4 +38,97 @@ docker exec -it challenge rails db:reset
 ```
 
 ## Documentação de acesso à API
--WIP
+
+### Criando novo client de acesso
+```bash
+curl \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{ "client": {"email":"teste@teste.com", "password": "123456", "name": "Sr. Teste"} }' \
+  http://localhost:3000/api/v1/signup
+```
+#### Resposta esperada
+```json
+{
+  "status":
+  {
+    "code":200,
+    "message":"Signed up successfully."
+  },
+  "data":{
+    "id":2,
+    "email":"teste@teste.com",
+    "name":"Sr. Teste"
+  }
+}
+```
+
+### Realizando login
+```bash
+curl \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{ "client": {"email":"teste@teste.com", "password": "123456"} }' \
+  http://localhost:3000/api/v1/login
+```
+#### Resposta esperada
+```json
+{
+  "status":{
+    "code":200,
+    "message":"Logged in successfully.",
+    "token": "eyJhbGciOiJIUzI...",
+    "data":{
+      "client":{
+        "id":2,
+        "email":"teste@teste.com",
+        "name":"Sr. Teste"
+      }
+    }
+  }
+}
+```
+
+### Realizando logout
+```bash
+curl \
+  -X DELETE \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  http://localhost:3000/api/v1/logout
+```
+#### Resposta esperada
+```json
+{
+  "status":{
+    "code":200,
+    "message":"Logged in successfully.",
+    "data":{
+      "client":{
+        "id":2,
+        "email":"teste@teste.com",
+        "name":"Sr. Teste"
+      }
+    }
+  }
+}
+```
+
+### Enviar arquivo data legacy
+```bash
+curl \
+  -X POST \
+  -H "Content-Type: multipart/form-data" \
+  -H "Authorization: Bearer {token}" \
+  -F "file=@path/to/file/filename.txt" \
+  http://localhost:3000/api/v1/legacy_order_imports
+```
+
+### Listar Orders
+```bash
+curl \
+  -X GET \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  http://localhost:3000
+```
