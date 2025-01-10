@@ -12,6 +12,6 @@ class LegacyOrderImport < ApplicationRecord
   private
 
   def call_legacy_order_process_job
-    LegacyOrderProcessJob.perform_async(id)
+    LegacyOrderProcessJob.perform_in(5.seconds, id)
   end
 end

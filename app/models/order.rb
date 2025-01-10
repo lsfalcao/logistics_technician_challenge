@@ -4,7 +4,7 @@ class Order < ApplicationRecord
 
   validates :date, presence: true
 
-  def total
-    order_products.sum(:value)
+  def calc_total
+    update_column(:total, order_products.sum(:value))
   end
 end

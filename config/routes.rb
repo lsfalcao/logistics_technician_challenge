@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "api/v1/users#index"
+  root "api/v1/legacy_orders#index"
 
   devise_for :clients, path: "api/v1",
     path_names: {
@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :order_products, only: [:index, :show, :create, :update, :destroy]
       resources :users, only: [:index, :show, :create, :update, :destroy]
       resources :legacy_order_imports, only: [:index, :show, :create, :destroy]
+      get "legacy_orders" => "legacy_orders#index"
     end
   end
 end
