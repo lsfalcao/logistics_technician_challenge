@@ -40,6 +40,10 @@ docker exec -it challenge bundle exec sidekiq
 ```bash
 docker exec -it challenge rails db:reset
 ```
+## Executar teste
+```bash
+docker exec -it challenge bundle exec rspec
+```
 
 ## Documentação de acesso à API
 
@@ -156,7 +160,7 @@ curl \
   "updated_at":"2025-01-10T03:47:28.693Z"
 }
 ```
-Caso ocorra importação em alguma linha, será indicada a posição da linha. Demais linhas serão importadas.
+Caso ocorra erro de importação, será indicada a posição da linhas com erro no campo `results`. Demais linhas serão importadas.
 
 ### Listar Orders
 ```bash
@@ -191,3 +195,26 @@ curl \
   }]
 }]
 ```
+
+## Demais informações
+
+### Modelagem
+
+* Versões: Ruby 3.3.6 - Rails 7.2.2
+* Uso de Docker para criar o ambiente com as configurações e versões controladas.
+* Banco de dados PostgreSQL para armazenar dados processados.
+* Redis + Sidekiq para execução do processamento de dados em Job.
+* Como os IDs informados via importação podem ser diferentes do utilizado na plataforma, optei por salvar esses IDs na coluna `legacy_id`.
+* Como cada `Order` tem apontamento para os `Products`, optei por renomear para `OrderProducts`
+* Uso do model `Client` com `DeviseJWT` para gestão de autenticação da API.
+* Todo ambiente desenvolvido a partir do _rails new_, adicionando apenas as configurações e _Gems_ necessárias.
+
+### Padrões
+
+* Como o arquivo enviado pode ser grande, o processamento é executado via **Service** chamado no **Job**, permitindo resposta rápida ao enviar o arquivo, que será posteriormente processado. O arquivo é apagado após o processamento.
+* Adicionei consulta ao resultado do processamento, informando quantidade de linhas importadas e erros, indicando cada linha que teve erro caso ocorra.
+* Uso de **Serializers** para gerar resposta em JSON com bom tempo de resposta, retornando **8500** _OrderProducts_ com tempo de reposta em média de **300ms** no padrão solicitado.
+
+### Testes
+
+* Uso do **RSpec** para execução dos testes.
