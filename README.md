@@ -127,6 +127,36 @@ curl \
   -F "file=@path/to/file/filename.txt" \
   http://localhost:3000/api/v1/legacy_order_imports
 ```
+#### Resposta esperada
+```json
+{
+  "id":5,
+  "client_id":1,
+  "results":null,
+  "created_at":"2025-01-10T13:26:56.554Z",
+  "updated_at":"2025-01-10T13:26:56.598Z"
+}
+```
+
+### Consutar resultado da importação
+```bash
+curl \
+  -X GET \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  http://localhost:3000/api/v1/legacy_order_imports/{id}
+```
+#### Resposta esperada
+```json
+{
+  "id":4,
+  "client_id":1,
+  "results":"Total lines: 3870\nTotal errors: 0\n",
+  "created_at":"2025-01-10T03:46:45.790Z",
+  "updated_at":"2025-01-10T03:47:28.693Z"
+}
+```
+Caso ocorra importação em alguma linha, será indicada a posição da linha. Demais linhas serão importadas.
 
 ### Listar Orders
 ```bash
@@ -135,4 +165,29 @@ curl \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {token}" \
   http://localhost:3000
+```
+#### Resposta esperada
+```json
+[{
+  "user_id":70,
+  "name":"Palmer Prosacco",
+  "orders":[{
+    "order_id":753,
+    "total":"4252.53",
+    "date":"2021-03-08",
+    "products":[{
+      "product_id":3,
+      "value":"1836.74"
+    },{
+      "product_id":3,
+      "value":"1009.54"
+    },{
+      "product_id":4,
+      "value":"618.79"
+    },{
+      "product_id":3,
+      "value":"787.46"
+    }]
+  }]
+}]
 ```

@@ -4,7 +4,7 @@ class LegacyOrderImports::Process < ApplicationService
     @line_errors = []
     begin
       @legacy_orders = LegacyOrder.load_lines(@legacy_order_import.file_current_path)
-    rescue e
+    rescue => e
       @legacy_order_import.update(results: e)
       @legacy_order_import.file.purge
     end
