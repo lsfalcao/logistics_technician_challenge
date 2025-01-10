@@ -209,11 +209,14 @@ curl \
 * Uso do model `Client` com `DeviseJWT` para gestão de autenticação da API.
 * Todo ambiente desenvolvido a partir do _rails new_, adicionando apenas as configurações e _Gems_ necessárias.
 
-### Padrões
+### Escolhas e Padrões
 
 * Como o arquivo enviado pode ser grande, o processamento é executado via **Service** chamado no **Job**, permitindo resposta rápida ao enviar o arquivo, que será posteriormente processado. O arquivo é apagado após o processamento.
 * Adicionei consulta ao resultado do processamento, informando quantidade de linhas importadas e erros, indicando cada linha que teve erro caso ocorra.
 * Uso de **Serializers** para gerar resposta em JSON com bom tempo de resposta, retornando **8500** _OrderProducts_ com tempo de reposta em média de **300ms** no padrão solicitado.
+* Utilizei o **ParseLine::FixedWidth** para leitura do arquivo de entrada, muito utilizado no processamento desse tipo de estrutura, sendo de fácil entendimento e tratamento dos dados, criando objetos para cada linha já definindo o nome de cada atributo e tratando o tipo.
+* Mantive os _controllers_ completos dos modelos utilizados para consultas diversas.
+* Inicialmente estava calculando o valor total da _Order_ no momento do retorno, porém afetou o tempo de resposta da API. Alterei para o calculo ser realizado sempre que o valor de um _OrderProduct_ é criado ou alterado, melhorando a eficiência da consulta.
 
 ### Testes
 
