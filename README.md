@@ -163,34 +163,38 @@ curl \
 Caso ocorra erro de importação, será indicada a posição da linhas com erro no campo `results`. Demais linhas serão importadas.
 
 ### Listar Orders
+Possível utilizar os seguintes filtros:
+* `user_id` # Inteiro
+* `user_name` # String
+* `order_id` #  Inteiro
+* `order_start_date` # Data
+* `order_end_date` # Data
+* `min_order_total` # Decimal
+* `max_order_total` # Decimal
+* `product_id` #  Inteiro
+
+Filtros de range `order_start_date`, `order_end_date`, `min_order_total` e `max_order_total` precisam ser enviados juntos para serem aplicados como filtros.
+
 ```bash
 curl \
   -X GET \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {token}" \
+  -d '{"user_id": 38,"user_name": "Boris","order_id": 415,"order_start_date": "2021-08-01","order_end_date": "2021-08-30","min_order_total": "1000","max_order_total": "5000","product_id": 2}' \
   http://localhost:3000
 ```
 #### Resposta esperada
 ```json
 [{
-  "user_id":70,
-  "name":"Palmer Prosacco",
+  "user_id":38,
+  "name":"Boris Zemlak",
   "orders":[{
-    "order_id":753,
-    "total":"4252.53",
-    "date":"2021-03-08",
+    "order_id":415,
+    "total":"1465.44",
+    "date":"2021-08-22",
     "products":[{
-      "product_id":3,
-      "value":"1836.74"
-    },{
-      "product_id":3,
-      "value":"1009.54"
-    },{
-      "product_id":4,
-      "value":"618.79"
-    },{
-      "product_id":3,
-      "value":"787.46"
+      "product_id":2,
+      "value":"1465.44"
     }]
   }]
 }]
